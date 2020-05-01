@@ -1,10 +1,16 @@
 import React from 'react';
 import { AppLoading } from 'expo';
-import { Container, Text } from 'native-base';
-import { StyleSheet } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import MealsNavigator from './navigation/MealsNavigator';
+import { createStore, combineReducers } from 'redux';
+import { mealReducer } from './data/redux/mealReducer';
+import { Provider } from 'react-redux';
+
+const rootReducer = combineReducers({
+  meals: mealReducer
+})
+const store = createStore(rootReducer);
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,18 +35,7 @@ export default class App extends React.Component {
     }
 
     return (
-      <MealsNavigator />
-      // <Container style = {styles.container}>
-      //   <Text>Open up App.js to start working on your app!</Text>
-      // </Container>
+      <Provider store = {store}><MealsNavigator /></Provider>
     );
   }
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
